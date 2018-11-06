@@ -4,7 +4,8 @@ const CANVAS_DIMEN = {
   HEIGHT: 690
 };
 const COLORS = {
-  WALL: '#BBBBBB'
+  WALL: '#000000',
+  NO_PATH: '#444444'
 };
 
 const CELL_DIMEN = {
