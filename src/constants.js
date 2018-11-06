@@ -5,7 +5,9 @@ const CANVAS_DIMEN = {
 };
 const COLORS = {
   WALL: '#000000',
-  NO_PATH: '#444444'
+  NO_PATH: '#444444',
+  SOURCE: '#0000FF',
+  DESTINATION: '#FF0000'
 };
 
 const CELL_DIMEN = {

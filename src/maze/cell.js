@@ -1,12 +1,12 @@
 class Cell {
 
-  constructor(col, row) {
-    this.col = col;
+  constructor(row, col, color = COLORS.NO_PATH) {
     this.row = row;
+    this.col = col;
     this.x = this.col * CELL_DIMEN.WIDTH + OFFSET.X;
     this.x = this.row * CELL_DIMEN.HEIGHT + OFFSET.Y;
 
-    this.color = COLORS.NO_PATH;
+    this.color = color;
 
     this.neighbors = {
       top: null,
