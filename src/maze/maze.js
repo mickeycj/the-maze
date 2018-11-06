@@ -1,19 +1,21 @@
 class Maze {
 
-  constructor(numRows, numCols, source, destination) {
+  constructor(numRows, numCols, sourceRow, sourceCol, destinationRow, destinationCol) {
     this.numRows = numRows;
     this.numCols = numCols;
 
-    this.source = source;
-    this.destination = destination;
+    this.sourceRow = sourceRow;
+    this.sourceCol = sourceCol;
+    this.destinationRow = destinationRow;
+    this.destinationCol = destinationCol;
 
     this.cells = [];
     for (let row = 0; row < this.numRows; row++) {
       this.cells[row] = [];
       for (let col = 0; col < this.numCols; col++) {
-        if (col === this.source.COL && row === this.source.ROW) {
+        if (row === this.sourceRow && col === this.sourceCol) {
           this.cells[row][col] = new Cell(row, col, COLORS.SOURCE);
-        } else if (col === this.destination.COL && row === this.destination.ROW) {
+        } else if (row === this.destinationRow && col === this.destinationCol) {
           this.cells[row][col] = new Cell(row, col, COLORS.DESTINATION);
         } else {
           this.cells[row][col] = new Cell(row, col);
