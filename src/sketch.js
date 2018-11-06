@@ -5,6 +5,6 @@ var mySketch = new p5((sketch) => {
   };
 
   sketch.draw = () => {
-    sketch.background(COLORS.GRAY);
+    sketch.background(COLORS.WALL);
   };
 }, SKETCH_NAME);
