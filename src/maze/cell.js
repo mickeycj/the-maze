@@ -4,7 +4,7 @@ class Cell {
     this.row = row;
     this.col = col;
     this.x = this.col * CELL_DIMEN.WIDTH + OFFSET.X;
-    this.x = this.row * CELL_DIMEN.HEIGHT + OFFSET.Y;
+    this.y = this.row * CELL_DIMEN.HEIGHT + OFFSET.Y;
 
     this.color = color;
 
@@ -23,16 +23,16 @@ class Cell {
 
     sketch.stroke(COLORS.WALL);
     if (!this.neighbors.top) {
-      line(this.x, this.y, this.x + CELL_DIMEN.WIDTH, this.y);
+      sketch.line(this.x, this.y, this.x + CELL_DIMEN.WIDTH, this.y);
     }
     if (!this.neighbors.right) {
-      line(this.x + CELL_DIMEN.WIDTH, this.y, this.x + CELL_DIMEN.WIDTH, this.y + CELL_DIMEN.HEIGHT);
+      sketch.line(this.x + CELL_DIMEN.WIDTH, this.y, this.x + CELL_DIMEN.WIDTH, this.y + CELL_DIMEN.HEIGHT);
     }
     if (!this.neighbors.bottom) {
-      line(this.x + CELL_DIMEN.WIDTH, this.y + CELL_DIMEN.HEIGHT, this.x, this.y + CELL_DIMEN.HEIGHT);
+      sketch.line(this.x + CELL_DIMEN.WIDTH, this.y + CELL_DIMEN.HEIGHT, this.x, this.y + CELL_DIMEN.HEIGHT);
     }
     if (!this.neighbors.left) {
-      line(this.x, this.y + CELL_DIMEN.HEIGHT, this.x, this.y);
+      sketch.line(this.x, this.y + CELL_DIMEN.HEIGHT, this.x, this.y);
     }
   }
 }
