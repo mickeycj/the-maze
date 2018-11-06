@@ -35,4 +35,5 @@ class Cell {
       sketch.line(this.x, this.y + CELL_DIMEN.HEIGHT, this.x, this.y);
     }
   }
+  
 }

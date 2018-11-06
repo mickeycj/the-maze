@@ -11,4 +11,5 @@ var mySketch = new p5((sketch) => {
   sketch.draw = () => {
     maze.draw(sketch);
   };
+
 }, SKETCH_NAME);

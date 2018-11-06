@@ -1,13 +1,8 @@
 const SKETCH_NAME = 'sketch';
+const FRAMERATE = 5
 const CANVAS_DIMEN = {
   WIDTH: 690,
   HEIGHT: 690
-};
-const COLORS = {
-  WALL: '#000000',
-  NO_PATH: '#444444',
-  SOURCE: '#0000FF',
-  DESTINATION: '#FF0000'
 };
 
 const CELL_DIMEN = {
@@ -21,6 +16,12 @@ const MAZE_DIMEN = {
 const OFFSET = {
   X: Math.floor((CANVAS_DIMEN.WIDTH - CELL_DIMEN.WIDTH * MAZE_DIMEN.NUM_COLS) / 2),
   Y: Math.floor((CANVAS_DIMEN.HEIGHT - CELL_DIMEN.HEIGHT * MAZE_DIMEN.NUM_ROWS) / 2)
+};
+const COLORS = {
+  WALL: '#000000',
+  NO_PATH: '#444444',
+  SOURCE: '#0000FF',
+  DESTINATION: '#FF0000'
 };
 
 const SOURCE = {

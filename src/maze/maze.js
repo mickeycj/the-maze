@@ -27,4 +27,5 @@ class Maze {
   draw(sketch) {
     this.cells.reduce((a, b) => a.concat(b), []).forEach((cell) => cell.draw(sketch));
   }
+  
 }
