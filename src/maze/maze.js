@@ -25,24 +25,41 @@ class Maze {
   }
 
   generate() {
+    const events = [];
+
     this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
     const stack = [];
 
     let current = this.cells[this.sourceRow][this.sourceCol];
     stack.push(current);
     this.visited[current.row][current.col] = true;
-    while (stack.length > 0) {
-      let neighbors = this.getCandidateNeighbors(current.row, current.col);
-      while (Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
-        if (stack.length === 0) {
-          return;
-        }
+    while (true) {
+      let neighbors = this.getCandidateNeighbors(current);
+      while (stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
         current = stack.pop();
-        neighbors = this.getCandidateNeighbors(current.row, current.col);
+        events.push(
+          {
+            current: current,
+            color: COLORS.PATH
+          }
+        );
+        neighbors = this.getCandidateNeighbors(current);
       }
+      if (stack.length === 0) {
+        break;
+      }
+      
       const dir = this.getRandomNeighborDirection(neighbors);
       const next = neighbors[dir];
-      current.addNeighbor(next, dir);
+      events.push(
+        {
+          current: current,
+          next: next,
+          dir: dir,
+          color: COLORS.GENERATING
+        }
+      );
+      
       if (next.row === this.destinationRow && next.col === this.destinationCol) {
         this.visited[next.row][next.col] = true;
       } else {
@@ -51,26 +68,28 @@ class Maze {
         this.visited[current.row][current.col] = true;
       }
     }
+
+    return events;
   }
 
-  getCandidateNeighbors(row, col) {
+  getCandidateNeighbors(cell) {
     const neighbors = {
       top: null,
       right: null,
       bottom: null,
       left: null
     };
-    if (row - 1 >= 0 && !this.visited[row - 1][col]) {
-      neighbors.top = this.cells[row - 1][col];
+    if (cell.row - 1 >= 0 && !this.visited[cell.row - 1][cell.col]) {
+      neighbors.top = this.cells[cell.row - 1][cell.col];
     }
-    if (col + 1 < this.numCols && !this.visited[row][col + 1]) {
-      neighbors.right = this.cells[row][col + 1];
+    if (cell.col + 1 < this.numCols && !this.visited[cell.row][cell.col + 1]) {
+      neighbors.right = this.cells[cell.row][cell.col + 1];
     }
-    if (row + 1 < this.numRows && !this.visited[row + 1][col]) {
-      neighbors.bottom = this.cells[row + 1][col];
+    if (cell.row + 1 < this.numRows && !this.visited[cell.row + 1][cell.col]) {
+      neighbors.bottom = this.cells[cell.row + 1][cell.col];
     }
-    if (col - 1 >= 0 && !this.visited[row][col - 1]) {
-      neighbors.left = this.cells[row][col - 1];
+    if (cell.col - 1 >= 0 && !this.visited[cell.row][cell.col - 1]) {
+      neighbors.left = this.cells[cell.row][cell.col - 1];
     }
     
     return neighbors;

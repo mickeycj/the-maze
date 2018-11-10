@@ -1,5 +1,5 @@
 const SKETCH_NAME = 'sketch';
-const FRAMERATE = 5
+const FRAMERATE = 60;
 const CANVAS_DIMEN = {
   WIDTH: 690,
   HEIGHT: 690
