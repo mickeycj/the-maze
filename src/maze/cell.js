@@ -16,6 +16,29 @@ class Cell {
     };
   }
 
+  addNeighbor(other, dir, reverse = true) {
+    this.neighbors[dir] = other;
+    if (reverse) {
+      let reverseDir = '';
+      switch (dir) {
+        case 'top':
+          reverseDir = 'bottom';
+          break;
+        case 'right':
+          reverseDir = 'left';
+          break;
+        case 'bottom':
+          reverseDir = 'top';
+          break;
+        case 'left':
+          reverseDir = 'right';
+          break;
+        default:
+      }
+      other.addNeighbor(this, reverseDir, false);
+    }
+  }
+
   draw(sketch) {
     sketch.noStroke();
     sketch.fill(this.color);
@@ -35,5 +58,5 @@ class Cell {
       sketch.line(this.x, this.y + CELL_DIMEN.HEIGHT, this.x, this.y);
     }
   }
-  
+
 }

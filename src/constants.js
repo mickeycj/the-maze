@@ -20,6 +20,8 @@ const OFFSET = {
 const COLORS = {
   WALL: '#000000',
   NO_PATH: '#444444',
+  GENERATING: '#FFFF00',
+  PATH: '#888888',
   SOURCE: '#0000FF',
   DESTINATION: '#FF0000'
 };
