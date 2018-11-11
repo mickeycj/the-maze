@@ -25,12 +25,3 @@ const COLORS = {
   SOURCE: '#0000FF',
   DESTINATION: '#FF0000'
 };
-
-const SOURCE = {
-  ROW: 0,
-  COL: 0
-};
-const DESTINATION = {
-  ROW: MAZE_DIMEN.NUM_ROWS - 1,
-  COL: MAZE_DIMEN.NUM_COLS - 1
-};

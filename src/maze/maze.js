@@ -1,22 +1,20 @@
 class Maze {
 
-  constructor(numRows, numCols, sourceRow, sourceCol, destinationRow, destinationCol) {
+  constructor(numRows, numCols, source, destination) {
     this.numRows = numRows;
     this.numCols = numCols;
 
-    this.sourceRow = sourceRow;
-    this.sourceCol = sourceCol;
-    this.destinationRow = destinationRow;
-    this.destinationCol = destinationCol;
+    this.source = source;
+    this.destination = destination;
 
     this.cells = [];
     for (let row = 0; row < this.numRows; row++) {
       this.cells[row] = [];
       for (let col = 0; col < this.numCols; col++) {
-        if (row === this.sourceRow && col === this.sourceCol) {
-          this.cells[row][col] = new Cell(row, col, COLORS.SOURCE);
-        } else if (row === this.destinationRow && col === this.destinationCol) {
-          this.cells[row][col] = new Cell(row, col, COLORS.DESTINATION);
+        if (row === this.source.row && col === this.source.col) {
+          this.cells[row][col] = this.source;
+        } else if (row === this.destination.row && col === this.destination.col) {
+          this.cells[row][col] = this.destination
         } else {
           this.cells[row][col] = new Cell(row, col);
         }
@@ -30,7 +28,7 @@ class Maze {
     this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
     const stack = [];
 
-    let current = this.cells[this.sourceRow][this.sourceCol];
+    let current = this.source;
     stack.push(current);
     this.visited[current.row][current.col] = true;
     while (true) {
@@ -59,8 +57,8 @@ class Maze {
           color: COLORS.GENERATING
         }
       );
-      
-      if (next.row === this.destinationRow && next.col === this.destinationCol) {
+
+      if (next === this.destination) {
         this.visited[next.row][next.col] = true;
       } else {
         current = next;
