@@ -48,7 +48,7 @@ class Vertex {
     sketch.ellipse(this.x, this.y, VERTEX_DIMEN.WIDTH, VERTEX_DIMEN.HEIGHT);
 
     const dirs = Object.keys(this.edges);
-    dirs.forEach((dir) => {
+    dirs.filter((dir) => dir === 'top' || dir === 'left').forEach((dir) => {
       const edge = this.edges[dir];
       if (edge) {
         sketch.stroke(this.color);
