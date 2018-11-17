@@ -23,51 +23,63 @@ class Maze {
   }
 
   generate() {
-    const events = [];
+    this.events = [];
 
     this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
-    const stack = [];
+    this.stack = [];
 
     let current = this.source;
-    stack.push(current);
+    this.stack.push(current);
     this.visited[current.row][current.col] = true;
     while (true) {
       let neighbors = this.getCandidateNeighbors(current);
-      while (stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
-        current = stack.pop();
-        events.push(
-          {
-            current: current,
-            color: COLORS.PATH
-          }
-        );
+      while (this.stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
+        current = this.popStack();
         neighbors = this.getCandidateNeighbors(current);
       }
-      if (stack.length === 0) {
+      if (this.stack.length === 0) {
         break;
       }
       
       const dir = this.getRandomNeighborDirection(neighbors);
-      const next = neighbors[dir];
-      events.push(
-        {
-          current: current,
-          next: next,
-          dir: dir,
-          color: COLORS.GENERATING
-        }
-      );
+      const next = this.pushStack(current, neighbors, dir);
 
       if (next === this.destination) {
         this.visited[next.row][next.col] = true;
       } else {
         current = next;
-        stack.push(current);
+        this.stack.push(current);
         this.visited[current.row][current.col] = true;
       }
     }
 
-    return events;
+    return this.events;
+  }
+
+  popStack() {
+    const current = this.stack.pop();
+    this.events.push(
+      {
+        current: current,
+        color: COLORS.PATH
+      }
+    );
+
+    return current;
+  }
+
+  pushStack(current, neighbors, dir) {
+    const next = neighbors[dir];
+    this.events.push(
+      {
+        current: current,
+        next: next,
+        dir: dir,
+        color: COLORS.GENERATING
+      }
+    );
+
+    return next;
   }
 
   getCandidateNeighbors(cell) {
