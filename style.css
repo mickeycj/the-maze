@@ -2,9 +2,8 @@ html, body {
   height: 100%;
 }
 
-body {
-  margin: 0;
+#sketch {
+  margin: 16px;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
