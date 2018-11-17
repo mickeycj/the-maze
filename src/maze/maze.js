@@ -44,7 +44,7 @@ class Maze {
       }
       
       const dir = this.getRandomNeighborDirection(neighbors);
-      const next = this.pushStack(current, neighbors, dir);
+      const next = this.addNeighbor(current, neighbors, dir);
 
       if (next === this.destination) {
         this.visited[next.row][next.col] = true;
@@ -70,7 +70,7 @@ class Maze {
     return current;
   }
 
-  pushStack(current, neighbors, dir) {
+  addNeighbor(current, neighbors, dir) {
     const next = neighbors[dir];
     this.events.push(
       {
