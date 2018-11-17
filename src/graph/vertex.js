@@ -3,8 +3,8 @@ class Vertex {
   constructor(row, col, color = COLORS.GRAPH) {
     this.row = row;
     this.col = col;
-    this.x = this.col * VERTEX_DIMEN.WIDTH + VERTEX_DIMEN.WIDTH / 2;
-    this.y = this.row * VERTEX_DIMEN.HEIGHT + VERTEX_DIMEN.HEIGHT / 2;
+    this.x = this.col * VERTEX_DIMEN.WIDTH * 2 + VERTEX_DIMEN.WIDTH;
+    this.y = this.row * VERTEX_DIMEN.HEIGHT * 2 + VERTEX_DIMEN.HEIGHT;
 
     this.color = color;
 
@@ -19,7 +19,7 @@ class Vertex {
   addEdge(other, dir, reverse = true) {
     this.edges[dir] = {
       vertex: other,
-      weight: Math.abs(other.x - this.x) + Math.abs(other.y - this.y)
+      weight: Math.abs(other.row - this.row) + Math.abs(other.col - this.col)
     };
     if (reverse) {
       let reverseDir = '';
@@ -51,9 +51,24 @@ class Vertex {
     dirs.forEach((dir) => {
       const edge = this.edges[dir];
       if (edge) {
+        sketch.stroke(this.color);
         sketch.strokeWeight(THICK);
         sketch.line(this.x, this.y, edge.vertex.x, edge.vertex.y);
+        
+        const textOffset = this.textOffset(edge);
+        sketch.noStroke();
+        sketch.fill(this.color);
+        sketch.textSize(TEXT_SIZE);
+        sketch.textStyle(sketch.NORMAL);
+        sketch.text(edge.weight, (this.x + edge.vertex.x) / 2 + textOffset.x, (this.y + edge.vertex.y) / 2 - textOffset.y);
       }
     });
+  }
+
+  textOffset(edge) {
+    return {
+      x: (Math.abs(this.row - edge.vertex.row) > 0) ? TEXT_OFFSET : -TEXT_OFFSET / 2,
+      y: (Math.abs(this.col - edge.vertex.col) > 0) ? TEXT_OFFSET : -TEXT_OFFSET / 2
+    };
   }
 }

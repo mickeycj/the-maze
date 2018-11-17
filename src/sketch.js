@@ -6,6 +6,8 @@ const mySketch = new p5((sketch) => {
   let destination;
   let maze;
 
+  let graph;
+
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
@@ -27,10 +29,16 @@ const mySketch = new p5((sketch) => {
         if (next && dir) {
           current.addNeighbor(next, dir);
         }
+        if (mazeEvents.length === 0) {
+          graph = new Graph(maze);
+        }
       }
     }
 
     maze.draw(sketch);
+    if (graph) {
+      graph.draw(sketch);
+    }
   };
 
 }, SKETCH_NAME);
