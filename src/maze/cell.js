@@ -45,6 +45,7 @@ class Cell {
     sketch.rect(this.x, this.y, CELL_DIMEN.WIDTH, CELL_DIMEN.HEIGHT);
 
     sketch.stroke(COLORS.WALL);
+    sketch.strokeWeight(THIN);
     if (!this.neighbors.top) {
       sketch.line(this.x, this.y, this.x + CELL_DIMEN.WIDTH, this.y);
     }
