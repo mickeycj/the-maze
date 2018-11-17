@@ -1,7 +1,9 @@
 class Graph {
 
-  constructor(maze) {
+  constructor(maze, animate = true) {
     this.maze = maze;
+    
+    this.animate = animate;
   }
 
   generate() {
@@ -47,24 +49,32 @@ class Graph {
 
   addVertexEvent(cell) {
     const current = new Vertex(cell.row, cell.col);
-    this.events.push(
-      {
-        current: current,
-        cell: cell
-      }
-    );
+    if (this.animate) {
+      this.events.push(
+        {
+          current: current,
+          cell: cell
+        }
+      );
+    } else {
+      this.addVertex(current, cell);
+    }
 
     return current;
   }
 
   addEdgeEvent(current, next, dir) {
-    this.events.push(
-      {
-        current: current,
-        next: next,
-        dir: dir
-      }
-    );
+    if (this.animate) {
+      this.events.push(
+        {
+          current: current,
+          next: next,
+          dir: dir
+        }
+      );
+    } else {
+      current.addEdge(next, dir);
+    }
   }
 
   addVertex(vertex, cell) {
