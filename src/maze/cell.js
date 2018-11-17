@@ -3,8 +3,8 @@ class Cell {
   constructor(row, col, color = COLORS.NO_PATH) {
     this.row = row;
     this.col = col;
-    this.x = this.col * CELL_DIMEN.WIDTH + OFFSET.X;
-    this.y = this.row * CELL_DIMEN.HEIGHT + OFFSET.Y;
+    this.x = this.col * CELL_DIMEN.WIDTH
+    this.y = this.row * CELL_DIMEN.HEIGHT
 
     this.color = color;
 
