@@ -1,6 +1,7 @@
 const mySketch = new p5((sketch) => {
 
   let mazeEvents;
+  let graphEvents;
 
   let source;
   let destination;
@@ -11,6 +12,8 @@ const mySketch = new p5((sketch) => {
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
+
+    graphEvents = [];
 
     source = new Cell(0, 0, COLORS.SOURCE);
     destination = new Cell(MAZE_DIMEN.NUM_ROWS - 1, MAZE_DIMEN.NUM_COLS - 1, COLORS.DESTINATION);
@@ -31,6 +34,14 @@ const mySketch = new p5((sketch) => {
         }
         if (mazeEvents.length === 0) {
           graph = new Graph(maze);
+          graphEvents = graph.generate();
+        }
+      } else if (graphEvents.length > 0) {
+        const { current, cell, next, dir } = graphEvents.shift();
+        if (cell) {
+          graph.addVertex(current, cell);
+        } else if (next && dir) {
+          current.addEdge(next, dir);
         }
       }
     }
