@@ -28,10 +28,8 @@ class Maze {
     this.events = [];
 
     this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
-    this.stack = [];
-
     let current = this.source;
-    this.stack.push(current);
+    this.stack = [current];
     this.visited[current.row][current.col] = true;
     while (true) {
       let neighbors = this.getCandidateNeighbors(current);
@@ -45,7 +43,6 @@ class Maze {
       
       const dir = this.getRandomNeighborDirection(neighbors);
       const next = this.addNeighbor(current, neighbors, dir);
-
       if (next === this.destination) {
         this.visited[next.row][next.col] = true;
       } else {
