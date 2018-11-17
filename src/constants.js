@@ -25,3 +25,4 @@ const COLORS = {
   SOURCE: '#0000FF',
   DESTINATION: '#FF0000'
 };
+const ALPHA = 0.3;

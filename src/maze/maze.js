@@ -1,6 +1,6 @@
 class Maze {
 
-  constructor(numRows, numCols, source, destination) {
+  constructor(numRows, numCols, source, destination, alpha = ALPHA) {
     this.numRows = numRows;
     this.numCols = numCols;
 
@@ -20,6 +20,8 @@ class Maze {
         }
       }
     }
+
+    this.alpha = alpha;
   }
 
   generate() {
@@ -49,7 +51,7 @@ class Maze {
       } else {
         current = next;
         this.stack.push(current);
-        this.visited[current.row][current.col] = true;
+        this.visited[current.row][current.col] = Math.random() > this.alpha;
       }
     }
 
