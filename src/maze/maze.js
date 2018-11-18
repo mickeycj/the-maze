@@ -1,6 +1,6 @@
 class Maze {
 
-  constructor(numRows, numCols, source, destination, alpha = ALPHA) {
+  constructor(numRows, numCols, source, destination, animate, alpha = ALPHA) {
     this.numRows = numRows;
     this.numCols = numCols;
 
@@ -22,6 +22,8 @@ class Maze {
     }
 
     this.alpha = alpha;
+
+    this.animate = animate;
   }
 
   generate() {
@@ -57,26 +59,39 @@ class Maze {
 
   popStack() {
     const current = this.stack.pop();
-    this.events.push(
-      {
-        current: current,
-        color: COLORS.PATH
-      }
-    );
+    const color = COLORS.PATH;
+    if (this.animate) {
+      this.events.push(
+        {
+          current: current,
+          color: color
+        }
+      );
+    } else if (current !== this.source && current !== this.destination) {
+      current.color = color;
+    }
 
     return current;
   }
 
   addNeighbor(current, neighbors, dir) {
     const next = neighbors[dir];
-    this.events.push(
-      {
-        current: current,
-        next: next,
-        dir: dir,
-        color: COLORS.GENERATING
+    const color = COLORS.GENERATING;
+    if (this.animate) {
+      this.events.push(
+        {
+          current: current,
+          next: next,
+          dir: dir,
+          color: color
+        }
+      );
+    } else {
+      if (next !== this.source && next !== this.destination) {
+        next.color = color;
       }
-    );
+      current.addNeighbor(next, dir);
+    }
 
     return next;
   }

@@ -1,6 +1,6 @@
 class Graph {
 
-  constructor(maze, animate = true) {
+  constructor(maze, animate) {
     this.maze = maze;
 
     this.animate = animate;
@@ -35,7 +35,7 @@ class Graph {
             current = this.addVertexEvent(cell);
           }
         }
-        
+
         if (current) {
           if (cell.neighbors.top) {
             this.addEdgeEvent(current, topVertices[col], 'top');
