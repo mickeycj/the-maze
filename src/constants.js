@@ -22,7 +22,7 @@ const VERTEX_DIMEN = {
 };
 
 const THIN = 1;
-const THICK = 2.5;
+const THICK = CELL_DIMEN.WIDTH / 12;
 const COLORS = {
   WALL: '#000000',
   NO_PATH: '#444444',
