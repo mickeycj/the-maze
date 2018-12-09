@@ -36,7 +36,7 @@ class Maze {
     while (true) {
       let neighbors = this.getCandidateNeighbors(current);
       while (this.stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
-        current = this.popStack();
+        current = this.popStackEvent();
         neighbors = this.getCandidateNeighbors(current);
       }
       if (this.stack.length === 0) {
@@ -44,7 +44,7 @@ class Maze {
       }
       
       const dir = this.getRandomNeighborDirection(neighbors);
-      const next = this.addNeighbor(current, neighbors, dir);
+      const next = this.addNeighborEvent(current, neighbors, dir);
       if (next === this.destination) {
         this.visited[next.row][next.col] = true;
       } else {
@@ -57,7 +57,7 @@ class Maze {
     return this.events;
   }
 
-  popStack() {
+  popStackEvent() {
     const current = this.stack.pop();
     const color = COLORS.PATH;
     if (this.animate) {
@@ -74,7 +74,7 @@ class Maze {
     return current;
   }
 
-  addNeighbor(current, neighbors, dir) {
+  addNeighborEvent(current, neighbors, dir) {
     const next = neighbors[dir];
     const color = COLORS.GENERATING;
     if (this.animate) {
