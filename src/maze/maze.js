@@ -21,6 +21,8 @@ class Maze {
       }
     }
 
+    this.destinationFound = false;
+
     this.animate = animate;
   }
 
@@ -41,9 +43,14 @@ class Maze {
         break;
       }
       
-      const dir = this.getRandomNeighborDirection(neighbors);
+      const dir = this.getRandomNeighborDirection(current, neighbors);
       const next = this.addNeighborEvent(current, neighbors, dir);
       if (next === this.destination) {
+        for (let i = 0; i < DESTINATION_BUFFER; i++) {
+          this.visited[current.row][current.col] = true;
+          current = this.popStackEvent();
+        }
+        this.destinationFound = true;
         this.visited[next.row][next.col] = true;
       } else {
         current = next;
@@ -117,15 +124,29 @@ class Maze {
     return neighbors;
   }
 
-  getRandomNeighborDirection(neighbors) {
-    Object.keys(neighbors).forEach((dir) => {
-      if (neighbors[dir] === null || neighbors[dir] === undefined) {
-        delete neighbors[dir];
+  getRandomNeighborDirection(cell, neighbors) {
+    const getRandomDirection = (neighbors) => {
+      Object.keys(neighbors).forEach((dir) => {
+        if (neighbors[dir] === null || neighbors[dir] === undefined) {
+          delete neighbors[dir];
+        }
+      });
+      const dirs = Object.keys(neighbors);
+      
+      return dirs[Math.floor(Math.random() * dirs.length)];
+    };
+
+    if (!this.destinationFound) {
+      if (cell.row === this.destination.row && cell.col === this.destination.col - 1) {
+        return 'right';
+      } else if (cell.row === this.destination.row - 1 && cell.col === this.destination.col) {
+        return 'bottom';
+      } else {
+        return getRandomDirection(neighbors);
       }
-    });
-    const dirs = Object.keys(neighbors);
-    
-    return dirs[Math.floor(Math.random() * dirs.length)];
+    } else {
+      return getRandomDirection(neighbors);
+    }
   }
 
   draw(sketch) {
