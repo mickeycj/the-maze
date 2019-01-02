@@ -7,6 +7,12 @@ class Maze {
     this.source = source;
     this.destination = destination;
 
+    this.animate = animate;
+    
+    this.initialize();
+  }
+
+  initialize() {
     this.cells = [];
     for (let row = 0; row < this.numRows; row++) {
       this.cells[row] = [];
@@ -21,15 +27,14 @@ class Maze {
       }
     }
 
+    this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
+    
     this.destinationFound = false;
-
-    this.animate = animate;
   }
 
   generate() {
     this.events = [];
 
-    this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
     let current = this.source;
     this.stack = [current];
     this.visited[current.row][current.col] = true;
