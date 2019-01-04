@@ -18,8 +18,6 @@ const mySketch = new p5((sketch) => {
     animateMaze = ANIMATE;
     animateGraph = ANIMATE;
 
-    graphEvents = [];
-
     source = new Cell(0, 0, COLORS.SOURCE);
     destination = new Cell(MAZE_DIMEN.NUM_ROWS - 1, MAZE_DIMEN.NUM_COLS - 1, COLORS.DESTINATION);
     maze = new Maze(MAZE_DIMEN.NUM_ROWS, MAZE_DIMEN.NUM_COLS, source, destination, animateMaze);
@@ -32,6 +30,10 @@ const mySketch = new p5((sketch) => {
 
   sketch.draw = () => {
     if (sketch.frameCount > FRAMERATE * 1.5) {
+      if (!graph && mazeEvents.length === 0) {
+        graph = new Graph(maze, animateGraph);
+        graphEvents = graph.generate();
+      }
       if (mazeEvents.length > 0) {
         const { current, next, dir, color } = mazeEvents.shift();
         const cell = (next && dir) ? next : current;
@@ -48,10 +50,6 @@ const mySketch = new p5((sketch) => {
         } else if (next && dir) {
           current.addEdge(next, dir);
         }
-      }
-      if (!graph && mazeEvents.length === 0) {
-        graph = new Graph(maze, animateGraph);
-        graphEvents = graph.generate();
       }
     }
 
