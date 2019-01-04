@@ -38,16 +38,9 @@ class Maze {
     let current = this.source;
     this.stack = [current];
     this.visited[current.row][current.col] = true;
-    while (true) {
-      let neighbors = this.getCandidateNeighbors(current);
-      while (this.stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
-        current = this.popStackEvent();
-        neighbors = this.getCandidateNeighbors(current);
-      }
-      if (this.stack.length === 0) {
-        break;
-      }
-      
+    let neighbors = this.getCandidateNeighbors(current);
+    
+    while (this.stack.length > 0) {
       const dir = this.getRandomNeighborDirection(current, neighbors);
       const next = this.addNeighborEvent(current, neighbors, dir);
       if (next === this.destination) {
@@ -61,6 +54,12 @@ class Maze {
         current = next;
         this.stack.push(current);
         this.visited[current.row][current.col] = true;
+      }
+
+      neighbors = this.getCandidateNeighbors(current);
+      while (this.stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
+        current = this.popStackEvent();
+        neighbors = this.getCandidateNeighbors(current);
       }
     }
 
