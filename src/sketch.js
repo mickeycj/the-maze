@@ -1,7 +1,5 @@
 const mySketch = new p5((sketch) => {
 
-  let animate;
-
   let mazeEvents;
   let graphEvents;
 
@@ -24,7 +22,7 @@ const mySketch = new p5((sketch) => {
     mazeEvents = maze.generate();
     if (!animateMaze && !animateGraph) {
       graph = new Graph(maze, animateGraph);
-      graph.generate();
+      graphEvents = graph.generate();
     }
   };
 
