@@ -5,6 +5,7 @@ const CANVAS_DIMEN = {
   HEIGHT: 690
 };
 const ANIMATE = true;
+const SHOW_GRAPH = true;
 
 const CELL_DIMEN = {
   WIDTH: 30,
