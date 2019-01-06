@@ -1,7 +1,7 @@
 class Dijkstra extends Solver {
 
   constructor(maze, graph, animate) {
-    super(maze, graph, animate)
+    super(maze, graph, animate);
   }
 
   solve() {
@@ -22,9 +22,10 @@ class Dijkstra extends Solver {
     while (this.openSet.length > 0) {
       current = this.openSet.shift();
       currentIndex = current.index;
+      this.closedSet.push(current);
       
-      Object.values(current.edges).filter((edge) => edge !== null && edge.vertex !== this.parents[currentIndex]).forEach((edge) => {
-        if (!destinationReached) {
+      Object.values(current.edges).filter((edge) => edge !== null).forEach((edge) => {
+        if (!destinationReached && !this.closedSet.includes(edge.vertex)) {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
