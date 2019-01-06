@@ -3,8 +3,8 @@ class Solver {
   constructor(maze, graph, animate) {
     this.animate = animate;
     
-    this.exploredEvents = [];
-    this.solutionEvents = [];
+    this.events = [];
+    this.solution = [];
 
     this.cells = maze.cells;
     this.sourceCell = maze.source;
@@ -15,6 +15,48 @@ class Solver {
     this.destinationVertex = graph.destination;
 
     this.parents = Array(this.vertices.length).fill(null);
+  }
+
+  cellsLookedEvent(current, next) {
+    const color = COLORS.LOOKED;
+    const currentCell = this.cells[current.row][current.col];
+
+    let swap = false;
+    if (current.row > next.row || current.col > next.col) {
+      [current, next] = [next, current];
+      swap = true;
+    }
+
+    if (this.animate) {
+      let events = [];
+
+      for (let row = current.row; row <= next.row; row++) {
+        for (let col = current.col; col <= next.col; col++) {
+          const cell = this.cells[row][col];
+          if (cell !== this.sourceCell && cell !== this.destinationCell && cell !== currentCell) {
+            events.push(
+              {
+                cell: this.cells[row][col],
+                color: color
+              }
+            );
+          }
+        }
+      }
+      if (swap) {
+        events = events.reverse();
+      }
+      this.events = this.events.concat(events);
+    } else {
+      for (let row = current.row; row <= next.row; row++) {
+        for (let col = current.col; col <= next.col; col++) {
+          const cell = this.cells[row][col];
+          if (cell !== this.sourceCell && cell !== this.destinationCell) {
+            cell.color = color;
+          }
+        }
+      }
+    }
   }
 
   cellsExploredEvent(current, next) {
@@ -45,7 +87,7 @@ class Solver {
       if (swap) {
         events = events.reverse();
       }
-      this.exploredEvents = this.exploredEvents.concat(events);
+      this.events = this.events.concat(events);
     } else {
       for (let row = current.row; row <= next.row; row++) {
         for (let col = current.col; col <= next.col; col++) {
@@ -58,7 +100,7 @@ class Solver {
     }
   }
 
-  solutionEvent() {
+  traceSolution() {
     const color = COLORS.SOLUTION;
 
     let previous = this.destinationVertex;
@@ -94,7 +136,7 @@ class Solver {
     solution.pop();
 
     if (this.animate) {
-      this.solutionEvents = solution.map((cell) => {
+      this.solution = solution.map((cell) => {
         return {
           cell: cell,
           color: color

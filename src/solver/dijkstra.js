@@ -5,8 +5,8 @@ class Dijkstra extends Solver {
   }
 
   solve() {
-    this.exploredEvents = [];
-    this.solutionEvents = [];
+    this.events = [];
+    this.solution = [];
 
     this.openSet = [];
     this.closedSet = [];
@@ -34,6 +34,7 @@ class Dijkstra extends Solver {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
+          this.cellsLookedEvent(current, next);
   
           const totalDistance = this.distances[currentIndex] + weight;
           if (this.distances[nextIndex] > totalDistance) {
@@ -55,9 +56,9 @@ class Dijkstra extends Solver {
         break;
       }
     }
-    this.solutionEvent();
+    this.traceSolution();
     
-    return this.exploredEvents.concat(this.solutionEvents);
+    return this.lookedEvents.concat(this.exploredEvents).concat(this.solutionEvents);
   }
 
 }

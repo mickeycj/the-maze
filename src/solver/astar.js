@@ -5,8 +5,8 @@ class AStar extends Solver {
   }
 
   solve() {
-    this.exploredEvents = [];
-    this.solutionEvents = [];
+    this.events = [];
+    this.solution = [];
 
     this.openSet = [];
     this.closedSet = [];
@@ -36,6 +36,7 @@ class AStar extends Solver {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
+          this.cellsLookedEvent(current, next);
   
           const tentativeScore = this.gScores[currentIndex] + weight;
           if (this.gScores[nextIndex] > tentativeScore) {
@@ -58,9 +59,9 @@ class AStar extends Solver {
         break;
       }
     }
-    this.solutionEvent();
+    this.traceSolution();
     
-    return this.exploredEvents.concat(this.solutionEvents);
+    return this.events.concat(this.solution);
   }
 
   hScore(vertex) {
