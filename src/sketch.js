@@ -17,7 +17,7 @@ const mySketch = new p5((sketch) => {
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
     
-    showGraph = SHOW_GRAPH;
+    showGraph = !SHOW_GRAPH;
 
     animateMaze = ANIMATE;
     animateGraph = ANIMATE && showGraph;
