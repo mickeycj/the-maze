@@ -13,6 +13,7 @@ class Dijkstra extends Solver {
     this.parents = Array(this.vertices.length).fill(null);
     this.distances = Array(this.vertices.length).fill(Number.MAX_SAFE_INTEGER);
 
+    let previous = null;
     let current = this.sourceVertex;
     let currentIndex = current.index;
     this.distances[currentIndex] = 0;
@@ -22,14 +23,17 @@ class Dijkstra extends Solver {
     while (this.openSet.length > 0) {
       current = this.openSet.shift();
       currentIndex = current.index;
+      previous = this.parents[currentIndex];
       this.closedSet.push(current);
+      if (previous !== null) {
+        this.cellsExploredEvent(previous, current);
+      }
       
       Object.values(current.edges).filter((edge) => edge !== null).forEach((edge) => {
         if (!destinationReached && !this.closedSet.includes(edge.vertex)) {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
-          this.cellsExploredEvent(current, next);
   
           const totalDistance = this.distances[currentIndex] + weight;
           if (this.distances[nextIndex] > totalDistance) {

@@ -14,6 +14,7 @@ class AStar extends Solver {
     this.gScores = Array(this.vertices.length).fill(Number.MAX_SAFE_INTEGER);
     this.fScores = Array(this.vertices.length).fill(Number.MAX_SAFE_INTEGER);
 
+    let previous = null;
     let current = this.sourceVertex;
     let currentIndex = current.index;
     this.gScores[currentIndex] = 0;
@@ -24,14 +25,17 @@ class AStar extends Solver {
     while (this.openSet.length > 0) {
       current = this.openSet.shift();
       currentIndex = current.index;
+      previous = this.parents[currentIndex];
       this.closedSet.push(current);
+      if (previous !== null) {
+        this.cellsExploredEvent(previous, current);
+      }
       
       Object.values(current.edges).filter((edge) => edge !== null).forEach((edge) => {
         if (!destinationReached && !this.closedSet.includes(edge.vertex)) {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
-          this.cellsExploredEvent(current, next);
   
           const tentativeScore = this.gScores[currentIndex] + weight;
           if (this.gScores[nextIndex] > tentativeScore) {
@@ -49,7 +53,7 @@ class AStar extends Solver {
           }
         }
       });
-
+      
       if (destinationReached) {
         break;
       }
