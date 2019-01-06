@@ -4,7 +4,10 @@ class Dijkstra {
     this.animate = animate;
   }
 
-  solve(maze, graph) {
+  initialize(graph) {
+    this.exploredEvents = [];
+    this.solutionEvents = [];
+
     this.vertices = graph.vertices;
     this.source = graph.source;
     this.destination = graph.destination;
@@ -13,6 +16,10 @@ class Dijkstra {
     this.closedSet = [];
     this.parents = Array(this.vertices.length).fill(null);
     this.distances = Array(this.vertices.length).fill(Number.MAX_SAFE_INTEGER);
+  }
+
+  solve(maze, graph) {
+    this.initialize(graph);
 
     let current = this.source;
     let currentIndex = current.index;
@@ -29,6 +36,7 @@ class Dijkstra {
           const { vertex, weight } = edge;
           const next = vertex;
           const nextIndex = next.index;
+          this.cellsExploredEvent(maze, current, next);
   
           const totalDistance = this.distances[currentIndex] + weight;
           if (this.distances[nextIndex] > totalDistance) {
@@ -52,6 +60,49 @@ class Dijkstra {
     }
 
     console.log(this.distances[this.destination.index]);
+    return this.exploredEvents;
+  }
+
+  cellsExploredEvent(maze, current, next) {
+    const color = COLORS.EXPLORED;
+
+    let swap = false;
+    if (current.row > next.row || current.col > next.col) {
+      [current, next] = [next, current];
+      swap = true;
+    }
+
+    if (this.animate) {
+      let events = [];
+
+      for (let row = current.row; row <= next.row; row++) {
+        for (let col = current.col; col <= next.col; col++) {
+          const cell = maze.cells[row][col];
+          if (cell !== maze.source && cell !== maze.destination) {
+            events.push(
+              {
+                cell: maze.cells[row][col],
+                color: color
+              }
+            );
+          }
+        }
+      }
+      if (swap) {
+        events = events.reverse();
+      }
+
+      this.exploredEvents = this.exploredEvents.concat(events);
+    } else {
+      for (let row = current.row; row <= next.row; row++) {
+        for (let col = current.col; col <= next.col; col++) {
+          const cell = maze.cells[row][col];
+          if (cell !== maze.source && cell !== maze.destination) {
+            cell.color = color;
+          }
+        }
+      }
+    }
   }
 
 }
