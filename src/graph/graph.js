@@ -6,10 +6,15 @@ class Graph {
     this.animate = animate;
   }
 
-  generate() {
+  initialize() {
     this.events = [];
 
     this.vertices = [];
+  }
+
+  generate() {
+    this.initialize();
+
     const topVertices = Array(this.maze.numCols).fill(null);
     this.maze.cells.forEach((row) => {
       let leftVertex = null;
