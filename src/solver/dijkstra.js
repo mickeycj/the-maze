@@ -41,10 +41,10 @@ class Dijkstra {
           const totalDistance = this.distances[currentIndex] + weight;
           if (this.distances[nextIndex] > totalDistance) {
             this.distances[nextIndex] = totalDistance;
+            this.parents[nextIndex] = current;
             if (next === this.destination) {
               destinationReached = true;
             } else {
-              this.parents[nextIndex] = current;
               this.openSet.push(next);
               this.openSet.sort((a, b) => {
                 return this.distances[a.index] - this.distances[b.index];
@@ -58,9 +58,9 @@ class Dijkstra {
         break;
       }
     }
-
-    console.log(this.distances[this.destination.index]);
-    return this.exploredEvents;
+    this.solutionEvent(maze);
+    
+    return this.exploredEvents.concat(this.solutionEvents);
   }
 
   cellsExploredEvent(maze, current, next) {
@@ -91,7 +91,6 @@ class Dijkstra {
       if (swap) {
         events = events.reverse();
       }
-
       this.exploredEvents = this.exploredEvents.concat(events);
     } else {
       for (let row = current.row; row <= next.row; row++) {
@@ -102,6 +101,55 @@ class Dijkstra {
           }
         }
       }
+    }
+  }
+
+  solutionEvent(maze) {
+    const color = COLORS.SOLUTION;
+
+    let previous = this.destination;
+    let current = this.parents[previous.index];
+
+    let solution = [maze.cells[previous.row][previous.col]];
+    while (previous !== this.source) {
+      let subSolution = [];
+      
+      let swap = false;
+      if (previous.row > current.row || previous.col > current.col) {
+        [current, previous] = [previous, current];
+        swap = true;
+      }
+      for (let row = previous.row; row <= current.row; row++) {
+        for (let col = previous.col; col <= current.col; col++) {
+          const cell = maze.cells[row][col];
+          if (cell !== maze.source && cell !== maze.destination) {
+            subSolution.push(cell);
+          }
+        }
+      }
+      if (swap) {
+        subSolution = subSolution.reverse();
+        [current, previous] = [previous, current];
+      }
+      solution = solution.concat(subSolution);
+
+      previous = current;
+      current = this.parents[previous.index];
+    }
+    solution = solution.reverse();
+    solution.pop();
+
+    if (this.animate) {
+      this.solutionEvents = solution.map((cell) => {
+        return {
+          cell: cell,
+          color: color
+        };
+      })
+    } else {
+      solution.forEach((cell) => {
+        cell.color = color;
+      })
     }
   }
 
