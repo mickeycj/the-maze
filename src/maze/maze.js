@@ -8,11 +8,11 @@ class Maze {
     this.destination = destination;
 
     this.animate = animate;
-    
-    this.initialize();
   }
 
   initialize() {
+    this.events = [];
+
     this.cells = [];
     for (let row = 0; row < this.numRows; row++) {
       this.cells[row] = [];
@@ -33,12 +33,12 @@ class Maze {
   }
 
   generate() {
-    this.events = [];
+    this.initialize();
 
     let current = this.source;
-    this.stack = [current];
-    this.visited[current.row][current.col] = true;
     let neighbors = this.getCandidateNeighbors(current);
+    this.visited[current.row][current.col] = true;
+    this.stack = [current];
     
     while (this.stack.length > 0) {
       const dir = this.getRandomNeighborDirection(current, neighbors);
