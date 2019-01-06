@@ -14,6 +14,8 @@ const mySketch = new p5((sketch) => {
   let solver;
 
   sketch.setup = () => {
+    Math.seedrandom('The Maze');
+
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
     
@@ -35,7 +37,8 @@ const mySketch = new p5((sketch) => {
       graph.finished = !animateGraph;
       
       if (!animateGraph) {
-        solver = new Dijkstra(maze, graph, animateSolution);
+        // solver = new Dijkstra(maze, graph, animateSolution);
+        solver = new AStar(maze, graph, animateSolution);
         solutionEvents = solver.solve();
       }
     }
@@ -49,7 +52,8 @@ const mySketch = new p5((sketch) => {
         graph.finished = !animateGraph;
       }
       if (graph && graph.finished && !solver) {
-        solver = new Dijkstra(maze, graph, animateSolution);
+        // solver = new Dijkstra(maze, graph, animateSolution);
+        solver = new AStar(maze, graph, animateSolution);
         solutionEvents = solver.solve();
       }
       if (mazeEvents.length > 0) {
