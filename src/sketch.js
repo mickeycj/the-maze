@@ -35,8 +35,8 @@ const mySketch = new p5((sketch) => {
       graph.finished = !animateGraph;
       
       if (!animateGraph) {
-        solver = new Dijkstra(animateSolution);
-        solutionEvents = solver.solve(maze, graph);
+        solver = new Dijkstra(maze, graph, animateSolution);
+        solutionEvents = solver.solve();
       }
     }
   };
@@ -49,8 +49,8 @@ const mySketch = new p5((sketch) => {
         graph.finished = !animateGraph;
       }
       if (graph && graph.finished && !solver) {
-        solver = new Dijkstra(animateSolution);
-        solutionEvents = solver.solve(maze, graph);
+        solver = new Dijkstra(maze, graph, animateSolution);
+        solutionEvents = solver.solve();
       }
       if (mazeEvents.length > 0) {
         const { current, next, dir, color } = mazeEvents.shift();
