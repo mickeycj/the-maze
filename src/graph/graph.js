@@ -10,6 +10,9 @@ class Graph {
     this.events = [];
 
     this.vertices = [];
+    this.numVertices = 0;
+    
+    this.finished = false;
   }
 
   generate() {
@@ -54,7 +57,7 @@ class Graph {
   }
 
   addVertexEvent(cell) {
-    const current = new Vertex(cell.row, cell.col);
+    const current = new Vertex(cell.row, cell.col, this.numVertices++);
     if (this.animate) {
       this.events.push(
         {

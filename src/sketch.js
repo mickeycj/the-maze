@@ -9,28 +9,41 @@ const mySketch = new p5((sketch) => {
 
   let graph;
 
+  let solver;
+
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
 
     animateMaze = ANIMATE;
     animateGraph = ANIMATE;
+    animateSolution = ANIMATE;
 
     source = new Cell(0, 0, COLORS.SOURCE);
     destination = new Cell(MAZE_DIMEN.NUM_ROWS - 1, MAZE_DIMEN.NUM_COLS - 1, COLORS.DESTINATION);
     maze = new Maze(MAZE_DIMEN.NUM_ROWS, MAZE_DIMEN.NUM_COLS, source, destination, animateMaze);
     mazeEvents = maze.generate();
-    if (!animateMaze && !animateGraph) {
+
+    if (!animateMaze) {
       graph = new Graph(maze, animateGraph);
       graphEvents = graph.generate();
+      
+      if (!animateGraph) {
+        solver = new Dijkstra(animateSolution);
+        solver.solve(maze, graph);
+      }
     }
   };
 
   sketch.draw = () => {
     if (sketch.frameCount > FRAMERATE * 1.5) {
-      if (!graph && mazeEvents.length === 0) {
+      if (maze.finished && !graph) {
         graph = new Graph(maze, animateGraph);
         graphEvents = graph.generate();
+      }
+      if (graph && graph.finished && !solver) {
+        solver = new Dijkstra(animateSolution);
+        solver.solve(maze, graph);
       }
       if (mazeEvents.length > 0) {
         const { current, next, dir, color } = mazeEvents.shift();
@@ -41,12 +54,18 @@ const mySketch = new p5((sketch) => {
         if (next && dir) {
           current.addNeighbor(next, dir);
         }
+        if (mazeEvents.length === 0) {
+          maze.finished = true;
+        }
       } else if (graphEvents.length > 0) {
         const { current, cell, next, dir } = graphEvents.shift();
         if (cell) {
           graph.addVertex(current, cell);
         } else if (next && dir) {
           current.addEdge(next, dir);
+        }
+        if (graphEvents.length === 0) {
+          graph.finished = true;
         }
       }
     }

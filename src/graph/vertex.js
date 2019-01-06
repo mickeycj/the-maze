@@ -1,8 +1,10 @@
 class Vertex {
 
-  constructor(row, col, color = COLORS.GRAPH) {
+  constructor(row, col, index, color = COLORS.GRAPH) {
     this.row = row;
     this.col = col;
+    this.index = index;
+
     this.x = this.col * VERTEX_DIMEN.WIDTH * 2 + VERTEX_DIMEN.WIDTH;
     this.y = this.row * VERTEX_DIMEN.HEIGHT * 2 + VERTEX_DIMEN.HEIGHT;
 

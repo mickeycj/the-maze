@@ -30,6 +30,8 @@ class Maze {
     this.visited = Array.from({ length: this.numRows }, (_) => Array(this.numCols).fill(false));
     
     this.destinationFound = false;
+    
+    this.finished = false;
   }
 
   generate() {
