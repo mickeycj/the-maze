@@ -25,21 +25,24 @@ class Dijkstra {
       currentIndex = current.index;
       
       Object.values(current.edges).filter((edge) => edge !== null && edge.vertex !== this.parents[currentIndex]).forEach((edge) => {
-        const { vertex, weight } = edge;
-        const next = vertex;
-        const nextIndex = next.index;
-
-        const totalDistance = this.distances[currentIndex] + weight;
-        if (this.distances[nextIndex] > totalDistance) {
-          this.distances[nextIndex] = totalDistance;
-          if (next === this.destination) {
-            destinationReached = true;
+        if (!destinationReached) {
+          const { vertex, weight } = edge;
+          const next = vertex;
+          const nextIndex = next.index;
+  
+          const totalDistance = this.distances[currentIndex] + weight;
+          if (this.distances[nextIndex] > totalDistance) {
+            this.distances[nextIndex] = totalDistance;
+            if (next === this.destination) {
+              destinationReached = true;
+            } else {
+              this.parents[nextIndex] = current;
+              this.openSet.push(next);
+              this.openSet.sort((a, b) => {
+                return this.distances[a.index] - this.distances[b.index];
+              });
+            }
           }
-          this.parents[nextIndex] = current;
-          this.openSet.push(next);
-          this.openSet.sort((a, b) => {
-            return this.distances[a.index] - this.distances[b.index];
-          });
         }
       });
 
