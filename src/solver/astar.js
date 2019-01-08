@@ -6,7 +6,6 @@ class AStar extends Solver {
 
   solve() {
     this.events = [];
-    this.solution = [];
 
     this.openSet = [];
     this.closedSet = [];
@@ -61,7 +60,7 @@ class AStar extends Solver {
     }
     this.traceSolution();
     
-    return this.events.concat(this.solution);
+    return this.events;
   }
 
   hScore(vertex) {

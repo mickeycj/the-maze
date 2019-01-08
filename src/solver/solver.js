@@ -4,7 +4,6 @@ class Solver {
     this.animate = animate;
     
     this.events = [];
-    this.solution = [];
 
     this.cells = maze.cells;
     this.sourceCell = maze.source;
@@ -136,12 +135,12 @@ class Solver {
     solution.pop();
 
     if (this.animate) {
-      this.solution = solution.map((cell) => {
+      this.events = this.events.concat(solution.map((cell) => {
         return {
           cell: cell,
           color: color
         };
-      })
+      }));
     } else {
       solution.forEach((cell) => {
         cell.color = color;

@@ -6,7 +6,6 @@ class Dijkstra extends Solver {
 
   solve() {
     this.events = [];
-    this.solution = [];
 
     this.openSet = [];
     this.closedSet = [];
@@ -58,7 +57,7 @@ class Dijkstra extends Solver {
     }
     this.traceSolution();
     
-    return this.lookedEvents.concat(this.exploredEvents).concat(this.solutionEvents);
+    return this.events;
   }
 
 }
