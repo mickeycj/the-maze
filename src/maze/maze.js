@@ -80,7 +80,9 @@ class Maze {
                 nextNeighbor[dir] = this.cells[current.row][current.col - 1];
                 break;
             }
-            this.addNeighborEvent(current, nextNeighbor, dir);
+            if (nextNeighbor[dir] !== this.destination) {
+              this.addNeighborEvent(current, nextNeighbor, dir);
+            }
           }
           deadEndFound = true;
         }
