@@ -99,7 +99,8 @@ class Maze {
       this.events.push(
         {
           current: current,
-          color: color
+          color: color,
+          notDeadEnd: true
         }
       );
     } else if (current !== this.source && current !== this.destination) {
@@ -118,7 +119,8 @@ class Maze {
           current: current,
           next: next,
           dir: dir,
-          color: color
+          color: color,
+          notDeadEnd: !this.visited[next.row][next.col]
         }
       );
     } else {

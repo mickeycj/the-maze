@@ -59,9 +59,9 @@ const mySketch = new p5((sketch) => {
         solutionEvents = solver.solve();
       }
       if (mazeEvents.length > 0) {
-        const { current, next, dir, color } = mazeEvents.shift();
+        const { current, next, dir, color, notDeadEnd } = mazeEvents.shift();
         const cell = (next && dir) ? next : current;
-        if (cell !== source && cell !== destination) {
+        if (cell !== source && cell !== destination && notDeadEnd) {
           cell.color = color;
         }
         if (next && dir) {
