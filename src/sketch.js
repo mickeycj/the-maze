@@ -18,6 +18,8 @@ const mySketch = new p5((sketch) => {
 
     sketch.createCanvas(CANVAS_DIMEN.WIDTH + 1, CANVAS_DIMEN.HEIGHT + 1);
     sketch.frameRate(FRAMERATE);
+
+    isPerfect = !PERFECT_MAZE;
     
     showGraph = !SHOW_GRAPH;
 
@@ -27,7 +29,7 @@ const mySketch = new p5((sketch) => {
 
     source = new Cell(0, 0, COLORS.SOURCE);
     destination = new Cell(MAZE_DIMEN.NUM_ROWS - 1, MAZE_DIMEN.NUM_COLS - 1, COLORS.DESTINATION);
-    maze = new Maze(MAZE_DIMEN.NUM_ROWS, MAZE_DIMEN.NUM_COLS, source, destination, animateMaze);
+    maze = new Maze(MAZE_DIMEN.NUM_ROWS, MAZE_DIMEN.NUM_COLS, source, destination, isPerfect, animateMaze);
     mazeEvents = maze.generate();
     maze.finished = !animateMaze;
 

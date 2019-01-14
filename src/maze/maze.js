@@ -1,11 +1,13 @@
 class Maze {
 
-  constructor(numRows, numCols, source, destination, animate) {
+  constructor(numRows, numCols, source, destination, isPerfect, animate) {
     this.numRows = numRows;
     this.numCols = numCols;
 
     this.source = source;
     this.destination = destination;
+
+    this.isPerfect = isPerfect;
 
     this.animate = animate;
   }
@@ -58,8 +60,30 @@ class Maze {
         this.visited[current.row][current.col] = true;
       }
 
+      let deadEndFound = false;
       neighbors = this.getCandidateNeighbors(current);
       while (this.stack.length > 0 && Object.values(neighbors).filter((neighbor) => neighbor !== null).length === 0) {
+        if (!this.isPerfect && !deadEndFound) {
+          if (!this.isOutOfBound(current, dir)) {
+            let nextNeighbor = {}
+            switch (dir) {
+              case 'top':
+                nextNeighbor[dir] = this.cells[current.row - 1][current.col];
+                break;
+              case 'right':
+                nextNeighbor[dir] = this.cells[current.row][current.col + 1];
+                break;
+              case 'bottom':
+                nextNeighbor[dir] = this.cells[current.row + 1][current.col];
+                break;
+              case 'left':
+                nextNeighbor[dir] = this.cells[current.row][current.col - 1];
+                break;
+            }
+            this.addNeighborEvent(current, nextNeighbor, dir);
+          }
+          deadEndFound = true;
+        }
         current = this.popStackEvent();
         neighbors = this.getCandidateNeighbors(current);
       }
@@ -153,6 +177,11 @@ class Maze {
     } else {
       return getRandomDirection(neighbors);
     }
+  }
+
+  isOutOfBound(cell, dir) {
+    return (cell.row === 0 && dir === 'top') || (cell.row === this.numRows - 1 && dir === 'bottom')
+        || (cell.col === 0 && dir === 'left') || (cell.col === this.numCols - 1 && dir === 'right');
   }
 
   draw(sketch) {

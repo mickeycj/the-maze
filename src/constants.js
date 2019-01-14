@@ -4,8 +4,9 @@ const CANVAS_DIMEN = {
   WIDTH: 690,
   HEIGHT: 690
 };
-const ANIMATE = true;
+const PERFECT_MAZE = true;
 const SHOW_GRAPH = true;
+const ANIMATE = true;
 
 const CELL_DIMEN = {
   WIDTH: 30,
