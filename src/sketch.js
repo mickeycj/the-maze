@@ -47,6 +47,8 @@ const mySketch = new p5((sketch) => {
   };
 
   sketch.draw = () => {
+    sketch.background(COLORS.BACKGROUND);
+
     if (sketch.frameCount > FRAMERATE * 1.5) {
       if (maze.finished && !graph) {
         graph = new Graph(maze, animateGraph);

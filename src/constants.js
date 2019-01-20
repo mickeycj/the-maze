@@ -26,6 +26,7 @@ const VERTEX_DIMEN = {
 const THIN = 1;
 const THICK = CELL_DIMEN.WIDTH / 12;
 const COLORS = {
+  BACKGROUND: '#FFFFFF',
   WALL: '#000000',
   NO_PATH: '#333333',
   GENERATING: '#FFFFFF',
