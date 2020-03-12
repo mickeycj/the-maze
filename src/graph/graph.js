@@ -98,4 +98,5 @@ class Graph {
   draw(sketch) {
     this.vertices.forEach((vertex) => vertex.draw(sketch));
   }
+  
 }
