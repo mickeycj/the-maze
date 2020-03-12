@@ -73,4 +73,5 @@ class Vertex {
       y: (Math.abs(this.col - edge.vertex.col) > 0) ? TEXT_OFFSET : -TEXT_OFFSET / 2
     };
   }
+  
 }
