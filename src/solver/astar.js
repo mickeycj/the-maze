@@ -21,7 +21,7 @@ class AStar extends Solver {
     this.openSet.push(current);
 
     let destinationReached = false;
-    while (this.openSet.length > 0) {
+    while (this.openSet.length > 0 && !destinationReached) {
       current = this.openSet.shift();
       currentIndex = current.index;
       previous = this.parents[currentIndex];
@@ -53,10 +53,6 @@ class AStar extends Solver {
           }
         }
       });
-      
-      if (destinationReached) {
-        break;
-      }
     }
     this.traceSolution();
     
